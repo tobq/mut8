@@ -11,4 +11,5 @@ The project can be ran [here.](https://rawgit.com/tobq/mut8/master/index.html)
 * up arrow (↑): Speed up by a factor of 2
 * down arrow (↓): Slow down by a factor of 2
 
-* speed → 0 = pause
+
+speed → 0 = pause
