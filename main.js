@@ -29,12 +29,12 @@ var world, canvas = document.getElementById("canvas"),
 	},
 	config = {
 		PARENTS: 5,
-		CHILDREN: 25,
+		CHILDREN: 50,
 		SPEED: 1,
 		RUNTIME: 20,
 		SPAWNX: 4,
 		SPAWNY: 8,
-		MUTATIONRATE: 5,
+		MUTATIONRATE: 10,
 		TIMESTEP: 1 / 60,
 		MAXMOTORSPEED: 10,
 		MAXMOTORTORQUE: 100
@@ -54,7 +54,7 @@ function mutate(p) { return !~~(Math.random() * (100 / (p || config.MUTATIONRATE
 function randpol(vs, gx, gy, settings) {
 	var bodyDef = new b2BodyDef(),
 		fixDef = new b2FixtureDef(),
-		vertices = settings ? settings.vertices : [],
+		vertices = settings ? settings.vertices || [] : [],
 		vs = vs && 2 < vs ? vs : ~~(Math.random() * 7) + 3,
 		b;
 	fixDef.density = settings && settings.density ? settings.density : 1;
@@ -65,13 +65,9 @@ function randpol(vs, gx, gy, settings) {
 	bodyDef.type = b2Body.b2_dynamicBody;
 	if (!vertices.length) {
 		var angles = [];
-		for (var i = vs; i--;) {
-			angles.push(Math.random() * 2 * Math.PI);
-		}
+		for (var i = vs; i--;) angles.push(Math.random() * 2 * Math.PI);
 		angles.sort();
-		for (var i = 0; i < vs; i++) {
-			vertices.push(new b2Vec2(Math.cos(angles[i]), Math.sin(angles[i])));
-		}
+		for (var i = 0; i < vs; i++) vertices.push(new b2Vec2(Math.cos(angles[i]), Math.sin(angles[i])));
 	}
 	fixDef.shape.SetAsArray(vertices);
 	bodyDef.position.x = gx || Math.random() * 10 + 2;
@@ -99,6 +95,7 @@ function createlegs(bA, bB, settings) {
 	legs.push([joint_def.bodyA, joint_def.bodyB]);
 	return world.CreateJoint(joint_def);
 }
+function mergewr(leg,property) { return (leg[property] + parents[~~(Math.random()*config.PARENTS)][property]) / 2 }
 
 document.onmousedown = function(e) {
 	view.mx = e.pageX - view.xoff;
@@ -171,21 +168,21 @@ function update() {
 			createlegs(null, null, p);
 			for (var i = 5; i--;) {
 				createlegs(null, null, [{
-					restitution: mutate()?null:(p[0].restitution + parents[~~(Math.random()*config.PARENTS)][0].restitution) / 2,
-					friction: mutate()? null:(p[0].friction + parents[~~(Math.random()*config.PARENTS)][0].friction) / 2,
-					density: mutate()? null:(p[0].density + parents[~~(Math.random()*config.PARENTS)][0].density) / 2,
-					vertices: mutate(100/config.CHILDREN) ? [] : p[0].vertices,
-					motorSpeed: mutate()?null:(p[0].motorSpeed + parents[~~(Math.random()*config.PARENTS)][0].motorSpeed) / 2,
-					j11: mutate()?null:(p[0].j11 + parents[~~(Math.random()*config.PARENTS)][0].j11) / 2,
-					j12: mutate()?null:(p[0].j12 + parents[~~(Math.random()*config.PARENTS)][0].j12) / 2,
-					j21: mutate()?null:(p[0].j21 + parents[~~(Math.random()*config.PARENTS)][0].j21) / 2,
-					j22: mutate()?null:(p[0].j22 + parents[~~(Math.random()*config.PARENTS)][0].j22) / 2,
-					maxMotorTorque: mutate()?null:(p[0].maxMotorTorque + parents[~~(Math.random()*config.PARENTS)][0].maxMotorTorque) / 2
+					restitution: mutate()?null: mergewr(p[0],"restitution"),
+					friction: mutate()? null: mergewr(p[0],"friction"),
+					density: mutate()? null: mergewr(p[0],"density"),
+					motorSpeed: mutate()?null: mergewr(p[0],"friction"),
+					maxMotorTorque: mutate()?null: mergewr(p[0],"maxMotorTorque"),
+					j11: mutate()?null: mergewr(p[0],"j11"),
+					j12: mutate()?null: mergewr(p[0],"j12"),
+					j21: mutate()?null: mergewr(p[0],"j21"),
+					j22: mutate()?null: mergewr(p[0],"j22"),
+					vertices: /* mutate()?null: */ p[0].vertices
 				}, {
-					restitution: mutate()? null:(p[1].restitution + parents[~~(Math.random()*config.PARENTS)][1].restitution) / 2,
-					friction: mutate()? null:(p[1].friction + parents[~~(Math.random()*config.PARENTS)] [1].friction) / 2,
-					density: mutate()? null:(p[1].density + parents[~~(Math.random()*config.PARENTS)][1].density) / 2,
-					vertices: mutate(100/config.CHILDREN) ? [] : p[1].vertices,
+					restitution: mutate()? null: mergewr(p[1],"restitution"),
+					friction: mutate()? null: mergewr(p[1],"friction"),
+					density: mutate()? null: mergewr(p[1],"density"),
+					vertices: /* mutate()?null : */ p[1].vertices
 				}]);
 			}
 		}
