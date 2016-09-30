@@ -24,7 +24,7 @@ var world, canvas = document.getElementById("canvas"),
 	debugDraw = new b2DebugDraw(),
 	legs = [],
 	flags = {
-		ResetLegs: 0,
+		Reset: 0,
 		play: 1
 	},
 	config = {
@@ -146,7 +146,19 @@ world.SetDebugDraw(debugDraw);
 requestAnimationFrame(update);
 
 function update() {
-	if (flags.ResetLegs || elapsed > config.RUNTIME) {
+	if (flags.Reset) {
+		flags.Reset = 0;
+		graph = { average:[], max:[] };
+		maxDist = config.SPAWNX / 2;
+		parents = [];
+		while (legs.length) {
+			window.Legs = legs.pop();
+			world.DestroyBody(Legs[0]);
+			world.DestroyBody(Legs[1]);
+		}
+		for (var i = config.CHILDREN; i--;) createlegs();
+	}
+	if (elapsed > config.RUNTIME) {
 		elapsed = 0;
 		var i = legs.length, avg=0, ptotal=0;
 		while (i--) avg += legs[i][0].settings.fx = (legs[i][0].m_xf.position.x + legs[i][1].m_xf.position.x) / 2;
@@ -188,7 +200,7 @@ function update() {
 		}
 	}
 	var d = (Date.now() - delta) * config.SPEED / 1E3,
-		gw = Math.max(graph.average.length,graph.max.length),
+		gw = Math.max(graph.average.length,graph.max.length)-1,
 		ratio = gw*view.scale > canvas.width ? canvas.width/(gw*view.scale):1;
 	elapsed += d;
 	while ((d -= config.TIMESTEP) > 0)  world.Step(config.TIMESTEP, 8, 3);
@@ -200,6 +212,7 @@ function update() {
 	ctx.fillStyle = "rgba(200,0,0,0.5)";
 	ctx.fillRect(maxDist * view.scale, 11 * view.scale, 4 * view.scale, 4 * view.scale);
 	ctx.fillRect(31/8*view.scale, 11 * view.scale, view.scale/4, 4 * view.scale);
+	ctx.lineWidth = 3;
 	ctx.beginPath();
 	ctx.strokeStyle = "#FFFF00";
 	for (var i = graph.average.length; i--;) ctx.lineTo((i*ratio)*view.scale-view.xoff,(graph.average[i]/20+15)*view.scale);
