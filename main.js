@@ -212,7 +212,7 @@ function update() {
 	ctx.fillStyle = "rgba(200,0,0,0.5)";
 	ctx.fillRect(maxDist * view.scale, 11 * view.scale, 4 * view.scale, 4 * view.scale);
 	ctx.fillRect(31/8*view.scale, 11 * view.scale, view.scale/4, 4 * view.scale);
-	ctx.lineWidth = 3;
+	ctx.lineWidth = view.scale/10;
 	ctx.beginPath();
 	ctx.strokeStyle = "#FFFF00";
 	for (var i = graph.average.length; i--;) ctx.lineTo((i*ratio)*view.scale-view.xoff,(graph.average[i]/20+15)*view.scale);
