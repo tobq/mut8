@@ -25,12 +25,14 @@ var world,
 	legs = [],
 	flags = {
 		Reset: 0,
-		Finished: 0
+		Finished: 0,
+		DrawWorld: 1,
+		DrawExtras: 1
 	},
 	config = {
 		PARENTS: 5,
-		CHILDREN: 25,
-		RUNTIME: 10,
+		CHILDREN: 50,
+		RUNTIME: 30,
 		SPAWNX: 4,
 		MUTATIONRATE: 10,
 		TIMESTEP: 1 / 60,
@@ -42,7 +44,7 @@ var world,
 	parents = [],
 	misc = {
 		maxDist: config.SPAWNX / 2,
-		speed: 1,
+		speed: 100,
 		generation: 1
 	},
 	graph = {
@@ -124,6 +126,8 @@ document.onkeydown = function(e) {
 	else if (e.keyCode === 39) misc.speed = Math.round(misc.speed) + 1;
 	else if (e.keyCode === 40) misc.speed = misc.speed < 2 ? 0 : misc.speed / 2;
 	else if (e.keyCode === 38)  misc.speed = misc.speed ? misc.speed * 2 : 1;
+	else if (e.keyCode === 87)  flags.DrawWorld = !flags.DrawWorld;
+	else if (e.keyCode === 81)  flags.DrawExtras = !flags.DrawExtras;
 	else if (e.keyCode === 27)  flags.Reset = 1;
 	document.getElementById("speed").innerHTML = misc.speed ? "Speed: x"+misc.speed : "PAUSED";
 };
@@ -222,24 +226,25 @@ function update() {
 		}
 	}
 	ctx.save();
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.translate(view.xoff, view.yoff);
-	world.DrawDebugData();
-	ctx.fillStyle = "rgba(200,0,0,0.5)";
-	ctx.fillRect(misc.maxDist * view.scale, 11 * view.scale, 4 * view.scale, 4 * view.scale);
-	ctx.fillRect(31/8*view.scale, 11 * view.scale, view.scale/4, 4 * view.scale);
-	ctx.lineWidth = view.scale/10;
-	ctx.beginPath();
-	ctx.strokeStyle = "#FFFF00";
-	for (var i = graph.average.length; i--;) ctx.lineTo((i*ratio)*view.scale-view.xoff,(graph.average[i]/20+15)*view.scale);
-	ctx.stroke();
-	ctx.closePath();
-	ctx.beginPath();
-	ctx.strokeStyle = "#00FFFF";
-	for (var i = graph.max.length; i--;) ctx.lineTo((i*ratio)*view.scale-view.xoff,(graph.max[i]/20+15)*view.scale);
-	ctx.stroke();
-	ctx.closePath();
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	if (flags.DrawWorld) world.DrawDebugData();
+	if (flags.DrawExtras) {
+		ctx.fillStyle = "rgba(200,0,0,0.5)";
+		ctx.fillRect(misc.maxDist * view.scale, 11 * view.scale, 4 * view.scale, 4 * view.scale);
+		ctx.fillRect(31/8*view.scale, 11 * view.scale, view.scale/4, 4 * view.scale);
+		ctx.lineWidth = view.scale/10;
+		ctx.beginPath();
+		ctx.strokeStyle = "#FFFF00";
+		for (var i = graph.average.length; i--;) ctx.lineTo((i*ratio)*view.scale-view.xoff,(graph.average[i]/20+15)*view.scale);
+		ctx.stroke();
+		ctx.closePath();
+		ctx.beginPath();
+		ctx.strokeStyle = "#00FFFF";
+		for (var i = graph.max.length; i--;) ctx.lineTo((i*ratio)*view.scale-view.xoff,(graph.max[i]/20+15)*view.scale);
+		ctx.stroke();
+		ctx.closePath();
+	}
 	ctx.restore();
-	world.ClearForces();
 	requestAnimationFrame(update);
 }

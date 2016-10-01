@@ -10,6 +10,8 @@ The project can be ran [here.](https://rawgit.com/tobq/mut8/master/index.html)
 * left arrow (←): Slow down simulation by 1s/s
 * up arrow (↑): Speed up by a factor of 2
 * down arrow (↓): Slow down by a factor of 2
+* W : Toggle Drawing of World
+* Q : Toggle Drawing of overlays (graph, max distance etc.)
 * ESC : Reset simulation
 
 ###### Notes:
