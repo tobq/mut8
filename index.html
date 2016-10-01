@@ -3,21 +3,33 @@
 		<script src="Box2d.min.js"></script>
 		<style>
 			* { margin: 0px; padding: 0px; overflow: hidden; }
-			#speed {
+			.over {
 				font-weight: 500;
 				font-family: Arial;
 				font-size: 20px;
 				position: fixed;
-				bottom: 0px;
-				right: 0px;
 				z-index: 1;
 				padding: 10px;
+			}
+			#speed {
+				bottom: 0px;
+				right: 0px;
+			}
+			#gen {
+				bottom: 0px;
+				left: 0px;
+			}
+			#gen:before {
+				content: "Generation: ";
+				display: inline-block;
+				margin-right: 3px;
 			}
 		</style>
 	</head>
 	<body>
 		<canvas id="canvas" width="640" height="480"></canvas>
-		<div id="speed">x1</div>
+		<div id="speed" class="over">Speed: x1</div>
+		<div id="gen" class="over">1</div>
 		<script src="main.js"></script>
 	</body>
 </html>
