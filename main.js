@@ -28,8 +28,8 @@ var world,
 		DrawExtras: 1
 	},
 	config = {
-		PARENTS: 10,
-		CHILDREN: 250,
+		PARENTS: 5,
+		CHILDREN: 50,
 		RUNTIME: 10,
 		SPAWNX: 4,
 		MUTATIONRATE: 10,
@@ -192,7 +192,7 @@ function update() {
 		graph.max.push(legs[0][0].settings.fx);
 		if (legs[0][0].settings.fx > misc.maxDist) {
 			misc.maxDist = legs[0][0].settings.fx;
-			elements.max.innterHTML = Math.round(legs[0][0].settings.fx);
+			elements.max.innerHTML = legs[0][0].settings.fx.toFixed(2);
 		};
 		for (var i = config.PARENTS; i--;) parents[i] = [legs[i][0].settings, legs[i][1].settings];
 
