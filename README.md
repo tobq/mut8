@@ -17,3 +17,4 @@ The project can be ran [here.](https://rawgit.com/tobq/mut8/master/index.html)
 ###### Notes:
 * speed → 0 = pause.
 * The graph's Yellow and Cyan lines represent Average and Max speeds over time - respectively.
+* You can change how the program runs by altering the `config` object.
