@@ -28,8 +28,8 @@ var world,
 		DrawExtras: 1
 	},
 	config = {
-		PARENTS: 5,
-		CHILDREN: 25,
+		PARENTS: 10,
+		CHILDREN: 250,
 		RUNTIME: 10,
 		SPAWNX: 4,
 		MUTATIONRATE: 10,
@@ -173,7 +173,7 @@ function update() {
 		flags.Reset = 0;
 		misc.generation = 0;
 		graph = { average:[], max:[] };
-		misc.maxDist = config.SPAWNX / 2;
+		misc.maxDist = config.SPAWNX;
 		parents = [];
 		clearLegs();
 		for (var i = config.CHILDREN; i--;) createlegs();
@@ -248,7 +248,7 @@ function update() {
 	if (flags.DrawWorld) world.DrawDebugData();
 	if (flags.DrawExtras) {
 		ctx.fillStyle = "rgba(200,0,0,0.5)";
-		ctx.fillRect(misc.maxDist * view.scale, (config.GROUND.y-1) * view.scale, 4 * view.scale, 2 * view.scale);
+		ctx.fillRect((misc.maxDist+1) * view.scale, (config.GROUND.y-1) * view.scale, 2 * view.scale, 2 * view.scale);
 		ctx.fillRect(31/8*view.scale, (config.GROUND.y-1) * view.scale, view.scale/4, 2 * view.scale);
 		ctx.lineWidth = view.scale/10;
 		ctx.beginPath();
