@@ -226,8 +226,8 @@ function update() {
 		}
 	}
 	ctx.save();
-	ctx.translate(view.xoff, view.yoff);
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.translate(view.xoff, view.yoff);
 	if (flags.DrawWorld) world.DrawDebugData();
 	if (flags.DrawExtras) {
 		ctx.fillStyle = "rgba(200,0,0,0.5)";
