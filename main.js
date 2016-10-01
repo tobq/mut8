@@ -31,8 +31,8 @@ var world,
 	},
 	config = {
 		PARENTS: 5,
-		CHILDREN: 50,
-		RUNTIME: 30,
+		CHILDREN: 25,
+		RUNTIME: 10,
 		SPAWNX: 4,
 		MUTATIONRATE: 10,
 		TIMESTEP: 1 / 60,
@@ -44,7 +44,7 @@ var world,
 	parents = [],
 	misc = {
 		maxDist: config.SPAWNX / 2,
-		speed: 100,
+		speed: 1,
 		generation: 1
 	},
 	graph = {
