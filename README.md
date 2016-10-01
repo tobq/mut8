@@ -14,4 +14,4 @@ The project can be ran [here.](https://rawgit.com/tobq/mut8/master/index.html)
 
 ###### Notes:
 * speed → 0 = pause.
-* The graphs yellow and cyan line represent average and max speeds, respectively.
+* The graph's Yellow and Cyan lines represent Average and Max speeds - respectively.
