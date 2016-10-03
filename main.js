@@ -29,7 +29,7 @@ var world,
 	},
 	config = {
 		PARENTS: 5,
-		CHILDREN: 50,
+		CHILDREN: 25,
 		RUNTIME: 10,
 		SPAWNX: 4,
 		MUTATIONRATE: 10,
